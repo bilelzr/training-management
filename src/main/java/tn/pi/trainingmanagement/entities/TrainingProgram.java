@@ -17,7 +17,7 @@ public class TrainingProgram {
     @Column(name = "training_program_pk_id")
     private long trainingProgramId;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "theme_traingin_program",
             joinColumns = @JoinColumn(name = "training_program_pk_id"),

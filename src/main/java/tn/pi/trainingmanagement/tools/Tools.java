@@ -1,5 +1,6 @@
 package tn.pi.trainingmanagement.tools;
 
+import org.hibernate.LazyInitializationException;
 import tn.pi.trainingmanagement.entities.ProgramSession;
 import tn.pi.trainingmanagement.entities.Theme;
 import tn.pi.trainingmanagement.entities.TrainingProgram;
@@ -40,7 +41,7 @@ public class Tools {
                 .programName(program.getProgramName())
                 .startDate(program.getStartDate())
                 .endDate(program.getEndDate())
-                .themeList(program.getThemeList() != null ? mapThemeListToDtoList(program.getThemeList()): new ArrayList<>())
+                .themeList(getThemeList(program))
                 .createdAt(program.getCreatedAt())
                 .trainingProgramId(program.getTrainingProgramId())
                 .build();
@@ -168,5 +169,13 @@ public class Tools {
             programSessions.add(mapProgramSessionDtoToEntity(programSessionDto));
         });
         return programSessions;
+    }
+    private static List<ThemeDto> getThemeList(TrainingProgram program) {
+        try {
+            return program.getThemeList() != null ? mapThemeListToDtoList(program.getThemeList()) : new ArrayList<>();
+        } catch (LazyInitializationException e) {
+            // Log the exception or handle as needed
+            return new ArrayList<>();
+        }
     }
 }

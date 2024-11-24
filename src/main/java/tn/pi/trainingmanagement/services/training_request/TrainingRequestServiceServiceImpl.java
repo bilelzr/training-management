@@ -1,9 +1,12 @@
 package tn.pi.trainingmanagement.services.training_request;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import tn.pi.trainingmanagement.entities.Status;
 import tn.pi.trainingmanagement.entities.TrainingProgram;
 import tn.pi.trainingmanagement.entities.TrainingRequest;
@@ -17,8 +20,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public class TrainingRequestServiceServiceImpl implements ITraningRequestService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ITraningRequestService.class);
+
 
     @Value("${host.server.candidate}")
     private String hostServerCandidateManagement;
@@ -63,13 +70,11 @@ public class TrainingRequestServiceServiceImpl implements ITraningRequestService
     public TrainingRequestDto createTrainingRequest(TrainingRequestDto trainingRequestDto) {
         TrainingProgram trainingProgram = Tools.mapTrainingProgramDtoToEntity(trainingProgramService.getTrainingProgram(trainingRequestDto.getTrainingProgram().getTrainingProgramId()));
         // URL for the external service (replace with actual URL)
-        String url = hostServerCandidateManagement + "/candidate" + "/" + trainingRequestDto.getCandidateId();
 
-        // Make the POST request to the external service
-        ResponseEntity<CandidateDto> response = restTemplate.getForEntity(url, CandidateDto.class);
 
-        // Return the response body
-        CandidateDto candidateDto = response.getBody();
+        // Make the get request to the external service
+
+        CandidateDto candidateDto = getCandidateDto(trainingRequestDto);
 
         if (candidateDto != null) {
             TrainingRequest trainingRequest = new TrainingRequest();
@@ -81,8 +86,27 @@ public class TrainingRequestServiceServiceImpl implements ITraningRequestService
             trainingRequest.setCandidateId(candidateDto.getIdCandidate());
             return (Tools.mapTrainingRequestToDto(trainingRequestRepository.save(trainingRequest)));
         } else {
-            return new TrainingRequestDto();
+            throw  new IllegalArgumentException("Candidate does not exist !");
         }
+    }
+
+    private CandidateDto getCandidateDto(TrainingRequestDto trainingRequestDto) {
+        String apiUrl = hostServerCandidateManagement + "/candidate/getById/" + trainingRequestDto.getCandidateId();
+        // Build WebClient instance
+        WebClient webClient = WebClient.create();
+
+        try {
+            // Perform GET request and block to get response synchronously
+            return webClient.get()
+                    .uri(apiUrl, trainingRequestDto.getCandidateId())
+                    .retrieve()
+                    .bodyToMono(CandidateDto.class)
+                    .block();
+        } catch (Exception e) {
+            // Handle exception (e.g., logging)
+            logger.error("an exception have been thrown {}", e.getMessage());
+            return null;
+        }// Return the response body
     }
 
     @Override

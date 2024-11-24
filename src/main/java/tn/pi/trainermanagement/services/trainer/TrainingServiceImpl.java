@@ -49,7 +49,6 @@ public class TrainingServiceImpl implements ITrainerService {
         try {
             trainer.setEmail(trainerDto.getEmail());
             trainer.setAge(trainerDto.getAge());
-            trainer.setDepartment(trainer.getDepartment());
             trainer.setStatus(trainerDto.getStatus());
             trainer.setFirstName(trainerDto.getFirstName());
             trainer.setGender(trainer.getGender());
@@ -57,6 +56,7 @@ public class TrainingServiceImpl implements ITrainerService {
             trainer.setLastName(trainerDto.getLastName());
             trainer.setLevel(trainerDto.getLevel());
             trainer.setProfession(trainerDto.getProfession());
+            trainer.setDepartment(trainerDto.getDepartment());
             trainerRepository.save(trainer);
         } catch (Exception e) {
             logger.error("error while creating trainer {}", e.getMessage());

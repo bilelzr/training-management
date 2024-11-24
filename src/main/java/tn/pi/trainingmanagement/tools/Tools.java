@@ -40,7 +40,8 @@ public class Tools {
                 .programName(program.getProgramName())
                 .startDate(program.getStartDate())
                 .endDate(program.getEndDate())
-                .themeList(mapThemeListToDtoList(program.getThemeList()))
+                .themeList(program.getThemeList() != null ? mapThemeListToDtoList(program.getThemeList()): new ArrayList<>())
+                .createdAt(program.getCreatedAt())
                 .trainingProgramId(program.getTrainingProgramId())
                 .build();
     }
@@ -115,7 +116,9 @@ public class Tools {
         program.setProgramName(trainingProgramDto.getProgramName());
         program.setStartDate(trainingProgramDto.getStartDate());
         program.setEndDate(trainingProgramDto.getEndDate());
-        program.setThemeList(mapThemeDtoListToEntityList(trainingProgramDto.getThemeList()));
+        if(trainingProgramDto.getThemeList()!= null){
+            program.setThemeList(mapThemeDtoListToEntityList(trainingProgramDto.getThemeList()));
+        }
         program.setTrainingProgramId(trainingProgramDto.getTrainingProgramId());
         return program;
     }

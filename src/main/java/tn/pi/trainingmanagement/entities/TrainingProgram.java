@@ -19,8 +19,8 @@ public class TrainingProgram {
 
     @ManyToMany
     @JoinTable(
-            name = "training_request",
-            joinColumns = @JoinColumn(name = "training_program_id"),
+            name = "theme_traingin_program",
+            joinColumns = @JoinColumn(name = "training_program_pk_id"),
             inverseJoinColumns = @JoinColumn(name = "theme_pk_id")
     )
     private List<Theme> themeList;
@@ -29,6 +29,8 @@ public class TrainingProgram {
     private LocalDate startDate;
     private LocalDate endDate;
     private LocalDateTime createdAt;
+
+
 
     @OneToMany(mappedBy = "trainingProgram", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProgramSession> programSessions;

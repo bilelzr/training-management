@@ -3,6 +3,7 @@ package tn.pi.trainingmanagement.services.training_program;
 import org.springframework.stereotype.Service;
 import tn.pi.trainingmanagement.entities.TrainingProgram;
 import tn.pi.trainingmanagement.repositories.TrainingProgramRepository;
+import tn.pi.trainingmanagement.services.theme.IThemeService;
 import tn.pi.trainingmanagement.tools.Tools;
 import tn.pi.trainingmanagement.tools.dtos.TrainingProgramDto;
 
@@ -16,10 +17,12 @@ public class TrainingProgramServiceImpl implements ITrainingProgramService {
 
 
     private final TrainingProgramRepository trainingProgramRepository;
+    private final IThemeService themeService;
 
 
-    public TrainingProgramServiceImpl(TrainingProgramRepository trainingProgramRepository) {
+    public TrainingProgramServiceImpl(TrainingProgramRepository trainingProgramRepository, IThemeService themeService) {
         this.trainingProgramRepository = trainingProgramRepository;
+        this.themeService = themeService;
     }
 
     @Override
@@ -43,7 +46,7 @@ public class TrainingProgramServiceImpl implements ITrainingProgramService {
         trainingProgramToBeSaved.setCreatedAt(LocalDateTime.now());
         trainingProgramToBeSaved.setStartDate(trainingProgram.getStartDate());
         trainingProgramToBeSaved.setEndDate(trainingProgram.getEndDate());
-        trainingProgramToBeSaved.setThemeList(Tools.mapThemeDtoListToEntityList(trainingProgram.getThemeList()));
+        trainingProgramToBeSaved.setThemeList(themeService.addManyThemes(trainingProgram.getThemeList()));
         return Tools.mapTraingingProgramToDto(trainingProgramRepository.save(trainingProgramToBeSaved));
     }
 

@@ -49,6 +49,14 @@ public class ThemeServiceImpl implements IThemeService {
         return Tools.mapThemeToDto(themeRepository.save(theme));
     }
 
+
+    @Override
+    public List<Theme> addManyThemes(List<ThemeDto> themeDto) {
+        List<Theme> themes = Tools.mapThemeDtoListToEntityList(themeDto);
+        themeRepository.saveAllAndFlush(themes);
+        return themes;
+    }
+
     @Override
     public ThemeDto updateTheme(ThemeDto themeDto) {
         Optional<Theme> optionalTheme = themeRepository.findById(themeDto.getThemeId());

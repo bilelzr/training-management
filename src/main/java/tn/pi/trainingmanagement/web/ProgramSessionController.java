@@ -52,8 +52,7 @@ public class ProgramSessionController {
 
     @GetMapping("/getByTrainingProgramAndDateBetween/{trainingProgramId}")
     public ResponseEntity<ProgramSessionDto> getProgramSessionByTrainingProgramIdAndSessionDateBetween(@PathVariable long trainingProgramId,
-                                                                                                       @RequestParam("startDate") LocalDate startDate,
-                                                                                                       @RequestParam("endDate") LocalDate endDate) {
+                                                                                                       @RequestParam("startDate") LocalDate startDate,                                                                                   @RequestParam("endDate") LocalDate endDate) {
         return ResponseEntity.ok(sessionService.getProgramSessionByTrainingProgramIdAndSessionDateBetween(trainingProgramId, startDate, endDate));
     }
 

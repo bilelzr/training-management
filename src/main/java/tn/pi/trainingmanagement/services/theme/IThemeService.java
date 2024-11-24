@@ -1,5 +1,6 @@
 package tn.pi.trainingmanagement.services.theme;
 
+import tn.pi.trainingmanagement.entities.Theme;
 import tn.pi.trainingmanagement.tools.dtos.ThemeDto;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public interface IThemeService {
     ThemeDto getThemeById(long themeId);
 
     ThemeDto addTheme(ThemeDto themeDto);
+    List<Theme> addManyThemes(List<ThemeDto> themeDto);
 
     ThemeDto updateTheme(ThemeDto themeDto);
 

@@ -6,7 +6,6 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.5</version>
-
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>tn.pi</groupId>
@@ -14,7 +13,19 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>trainer-management</name>
     <description>trainer-management</description>
-
+    <url/>
+    <licenses>
+        <license/>
+    </licenses>
+    <developers>
+        <developer/>
+    </developers>
+    <scm>
+        <connection/>
+        <developerConnection/>
+        <tag/>
+        <url/>
+    </scm>
     <properties>
         <java.version>17</java.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>

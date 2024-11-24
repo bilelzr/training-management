@@ -11,7 +11,7 @@
     </parent>
     <groupId>tn.pi</groupId>
     <artifactId>internal-management</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <name>trainer-management</name>
     <description>trainer-management</description>
 

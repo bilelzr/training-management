@@ -2,6 +2,7 @@ package tn.pi.trainingmanagement.services.program_sessions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import tn.pi.trainingmanagement.entities.ProgramSession;
@@ -18,6 +19,13 @@ import java.util.Optional;
 @Service
 
 public class ProgramSessionImpl implements IProgramSessionService {
+
+
+    @Value("${host.server.candidate}")
+    private String hostServerCandidateManagement;
+
+    @Value("${host.server.internal}")
+    private String hostServerInternalManagement;
     private final ProgramSessionRepository programSessionRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(ProgramSessionImpl.class);
@@ -72,7 +80,7 @@ public class ProgramSessionImpl implements IProgramSessionService {
             programSession.setSessionTitle(programSessionDto.getSessionTitle());
             programSession.setSessionStartTime(programSessionDto.getSessionStartTime());
             programSession.setSessionEndTime(programSessionDto.getSessionEndTime());
-            programSession.setTrainerFk(programSessionDto.getTrainerFk()); // TODO : Call restTemplate Here from training module
+            programSession.setTrainerFk(programSessionDto.getTrainerFk());
             programSession.setCreatedAt(LocalDateTime.now());
             return Tools.mapProgramSessionToDto(programSessionRepository.save(programSession));
         }
@@ -102,7 +110,7 @@ public class ProgramSessionImpl implements IProgramSessionService {
         // URL of the REST API
         logger.error("calling trainer management service to check either the trainer exists or not");
 
-        String apiUrl = "http://127.0.0.1:8222/internal-management/trainer/getById/" + trainerFk;
+        String apiUrl =hostServerInternalManagement +"/trainer/getById/" + trainerFk;
         // Build WebClient instance
         WebClient webClient = WebClient.create();
 

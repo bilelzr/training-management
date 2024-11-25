@@ -11,4 +11,4 @@ COPY target/internal-management-0.1.jar internal-management-0.1.jar
 EXPOSE 8093
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "internal-management-0.1.jar"]
